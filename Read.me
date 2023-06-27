@@ -1,0 +1,25 @@
+oneclick - project
+.env - env variables
+ldap_login - for login and logout
+user_access - provides access to user
+apt-cache search mysql-server
+
+##db user
+psql 14
+CREATE DATABASE oneclick;
+CREATE USER fc_oneclick_user WITH PASSWORD 'pa$$word';
+GRANT ALL PRIVILEGES ON DATABASE oneclick TO fc_oneclick_user;
+ALTER ROLE fc_oneclick_user SET client_encoding TO 'utf8';
+ALTER ROLE fc_oneclick_user SET default_transaction_isolation TO 'read committed';
+ALTER ROLE fc_oneclick_user SET timezone TO 'UTC';
+
+--> copy from csv to db
+https://hevodata.com/learn/postgresql-import-csv/
+COPY employees(emp_id,first_name,last_name,dob,city)
+FROM ‘C:newdbemployees.csv’
+DELIMITER ‘,’
+CSV HEADER;
+
+--> to make changes in DB from models.py
+python manage.py makemigrations
+python manage.py migrate

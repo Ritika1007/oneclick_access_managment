@@ -1,0 +1,28 @@
+{% extends 'user_access/base.html' %}
+{% block content %}
+<section class="top-home-section">
+  <h3 class="heading3">Vault Databag Access Request</h3>
+</section> 
+<section class="home-section home-section2">
+  <div class="login-box">
+      <form id="signin" action="/databag" method="post">
+      {% csrf_token %}
+      <div class="user-box">
+        <input type="text" id="prod" name="prod" value="{{ prod }}" Required>
+        <label for="prod" >Product</label>
+      </div>
+      <div class="user-box">
+        <input type="text" id="dataurl" name="dataurl" value="{{ dataurl }}" Required>
+        <label for="dataurl" >Databag URL</label>
+      </div>
+      <button type="submit" class="button">
+        Send Request For Approval</button>
+    </form>
+  </div>
+  </section>
+  <script>
+    function myFunction() {
+        document.getElementById("signin").submit();
+    }
+</script>
+{% endblock %}

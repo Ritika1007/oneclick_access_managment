@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+    <title>OneClick</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'login/images/mouse.png' %}">
+</head>
+<body>
+	<div class="box">
+        <!-- <h3>OneClick</h3> -->
+		<form class="login-form" action="{% url 'login' %}" method="post">
+      {% csrf_token %}
+      <!-- <i class="bx bxs-mouse-alt icon"></i> -->
+	  <h1>OneClick</h1>
+      <h5>Access Management Tool</h5>
+			<input type="text" name="username" id="username" placeholder="Username" required>
+			<input type="password" name="password" id="password" placeholder="Password" required>
+			<input type="submit" name="Login" value="Login">
+			<!-- <div class="links">
+				<a href="#">Forgot Password</a>
+				<a href="#">Sign Up</a>
+			</div> -->
+			</button>
+		</form>
+		
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.5/sweetalert2.all.min.js"></script>
+	{% load sweetify %}
+	{% sweetify %}
+</body>
+</html>

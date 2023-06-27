@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+     <meta charset="UTF-8">
+    <title> OneClick</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'login/images/mouse.png' %}">
+</head>
+    <link rel="stylesheet" href="{% static 'user_access/css/style.css' %}">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+
+
+    
+    {% block htmlhead %}
+    {% endblock htmlhead %}
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+   <body>
+    <div class="sidebar">
+        <div class="logo-details">
+          <!-- <i class='bx bxl-c-plus-plus icon'></i> -->
+          <!-- <i class="bx bxs-mouse-alt icon"></i> -->
+          <i class='bx bxs-mouse-alt bx-burst icon' ></i>
+            <div class="logo_name">OneClick</div>
+            <i class='bx bx-menu-alt-right' id="btn" ></i>
+        </div>
+        <ul class="nav-list">
+          <li>
+            <a href="{% url 'home' %}">
+              <i class='bx bx-home  ' ></i>
+              <span class="links_name">Home</span>
+            </a>
+            </li>
+
+            <li>
+                <a href="{% url 'server' %}">
+                  <i class='bx bx-server'></i>
+                  <span class="links_name">Server Access</span>
+                </a>
+
+            </li>
+
+            <li>
+              <div class="iocn-link">
+                <a href="#">
+                  <!-- <i class='bx bx-wallet-alt icon' ></i> -->
+                  <i class='bx bxl-vuejs' ></i>
+                  <span class="links_name">Vault Access</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow' ></i>
+              </div>
+              <ul class="sub-menu">
+                <li><a href="{% url 'databag' %}">Databag</a></li>
+                <li><a href="{% url 'database' %}">Database</a></li>
+                <!-- <li><a href="#">Box Icons</a></li> -->
+              </ul>
+            </li>
+              
+            <li>
+              <a href="{% url 'jenkins' %}">
+                <!-- <i class='bx bx-cog' ></i> -->
+                <!-- <i class='bx bxl-slack icon'></i> -->
+                <i class="fab fa-jenkins fa-xl"></i>
+                <span class="links_name">Jenkins Job Access</span>
+              </a>
+              <!-- <span class="tooltip">Settings</span> -->
+            </li>
+
+              <li class="profile">
+                <a href="{% url 'logout' %}">
+
+                <div class="profile-details">
+                    <div class="name_job">
+                      <div class="name">Logout ( {{ username }} )</div>
+                    </div>
+                </div>
+                <i class='bx bx-log-out' id="log_out">
+                </i>
+              </a>
+            </li>
+
+        </ul>
+    </div>
+    
+    {% block content %}
+    {% endblock %}
+
+
+    <script src="{% static 'user_access/js/script.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.5/sweetalert2.all.min.js"></script>
+    {% load sweetify %}
+    {% sweetify %}
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% extends 'user_access/base.html' %}
+
+
+{% block content %}
+
+<section class="top-home-section">
+  <h3 class="heading3">Server Access Request</h3>
+</section> 
+<section class="home-section home-section2">
+  <div class="login-box">
+    <form id="signin" action="/server" method="post">
+      {% csrf_token %}
+
+      <div class="user-box">
+        <input type="text" id="serverip" name="serverip" value="{{ serverip }}" Required>
+        <label for="serverip" >Server IPs</label>
+      </div>
+
+      <div class="user-box">
+        <input type="checkbox" id="sshkeycheckbox" name="sshkeycheckbox" onchange="toggleSSHKeyInput()">
+        <label for="sshkeycheckbox">Do you require access for Staging or QA box? If Yes check the box.</label>
+      </div>
+
+      <div class="user-box" id="sshkeyinput" style="display: none;">
+        <input type="text" id="sshkey" name="sshkey">
+        <label for="sshkey">SSH Key</label>
+      </div>
+
+
+
+      <button type="submit" class="button">
+        Send Request For Approval</button>
+    </form>
+  </div>
+  </section>
+  <script>
+    function toggleSSHKeyInput() {
+      var checkbox = document.getElementById("sshkeycheckbox");
+      var sshKeyInput = document.getElementById("sshkeyinput");
+      if (checkbox.checked) {
+        sshKeyInput.style.display = "block";
+        document.getElementById("sshkey").setAttribute("required", "");
+      } else {
+        sshKeyInput.style.display = "none";
+        document.getElementById("sshkey").removeAttribute("required");
+      }
+    }
+    function myFunction() {
+        document.getElementById("signin").submit();
+    }
+</script>
+{% endblock %}

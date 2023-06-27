@@ -1,0 +1,14 @@
+Django==4.2.1
+django-auth-ldap==4.3.0
+django-environ==0.10.0
+xmltodict==0.13.0
+sweetify==2.3.1
+requests==2.28.2
+psycopg==3.1.9
+django-redis==5.2.0
+celery==5.2.7
+python-jenkins==1.8.0
+django-celery-beat 
+django-celery-results
+hvac==1.1.0
+urllib3==1.26.15
