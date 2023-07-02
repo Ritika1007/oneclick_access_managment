@@ -6,7 +6,7 @@
 
 > Simplify access management with ease.
 
-[Flow Diagram](#oneclickflow) | [Features](#features) | [Technologies Used](#technologies-used) | [Installation](#installation) | [Screenshots](#screenshots)
+[Flow Diagram](#OneClick-Flow) | [Features](#features) | [Technologies Used](#technologies-used) | [Installation](#installation) | [Screenshots](#Project-Screenshots)
 
 
 >
@@ -69,7 +69,7 @@
 
 
 
-## Project Screenshots
+## Project-Screenshots
 > 
 > Login using Ldap
 ![image](https://github.com/Ritika1007/oneclick_access_managment/assets/72782573/514cb3ed-3ee3-406e-8367-ffebe7428455)
