@@ -14,7 +14,7 @@ def add_user_info_db(username):
         DisName = abc['result']['result']['gecos'][0]
         AD_grp = ",".join(abc['result']['result']['memberof_group'])
 
-        emp_reporting_manager = "ritika.1@freecharge.com"
+        emp_reporting_manager = "ritika.1@example.com"
         user_add = UserDefinition(emp_user_id = username, emp_display_name = DisName, initial_ad_grps = AD_grp, emp_reporting_manager = emp_reporting_manager)
         user_add.save()
 

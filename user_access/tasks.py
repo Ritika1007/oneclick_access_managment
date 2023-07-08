@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from user_access.modules.IPA_module import ipa
 from user_access.modules.callJenkinsJob import *
 from user_access.modules.vault import *
+from user_access.modules.jira_tickets import *
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -19,16 +20,16 @@ def provide_access(request_id,access_type):
     approval_request = get_object_or_404(AccessDefinition, request_id=request_id)
     obj = approval_request.emp_user_id
     emp_display_name = getattr(obj, "emp_display_name")
-    emp_mail_id = str(getattr(obj, "emp_user_id"))+"@freecharge.com"
+    emp_sshkey = getattr(obj, "emp_ssh_key")
+    emp_mail_id = str(getattr(obj, "emp_user_id"))+"@example.com"
+
+    add_comment(approval_request.jira_id, f"Request approved by {approval_request.approver_mail}")
 
 
     #for server access
     if access_type == 'Server':
-        #JENKINS JOB CLIENT
-        # jenkins_client = build_jenkins_client(server_url, username, password)
 
         emp_user_id = getattr(obj, "emp_user_id")
-        # emp_display_name = getattr(obj, "emp_display_name")
 
         obj_ip = approval_request.access_details
 
@@ -75,10 +76,13 @@ def provide_access(request_id,access_type):
                     count+=len(ad_grp)
 
 
+
             
         if count == NoServer:
             approval_request.access_granted = "Yes"
-            send_mail_to_requester(request_id,emp_mail_id,emp_display_name,obj_ip)
+            add_comment(approval_request.jira_id, "Access Granted, Please check after 30 mins.\n If you face any issues, reach out to SRE team.")
+            status_transition(approval_request.jira_id)
+            send_mail_to_requester(request_id,emp_mail_id,emp_display_name,obj_ip,'Server')
             
         else:
             approval_request.access_granted = "No"
@@ -139,6 +143,8 @@ def provide_access(request_id,access_type):
             print(build_status)
             if build_status == "SUCCESS":
                 approval_request.access_granted = "Yes"
+                add_comment(approval_request.jira_id, "Access Granted, Please check after 30 mins.\n If you face any issues, reach out to SRE team.")
+                status_transition(approval_request.jira_id)
                 send_mail_to_requester(request_id,emp_mail_id,emp_display_name,obj_ip,'Vault Databag')
             
             else:
@@ -156,6 +162,8 @@ def provide_access(request_id,access_type):
         print(build_status)
         if build_status == "SUCCESS":
                 approval_request.access_granted = "Yes"
+                add_comment(approval_request.jira_id, "Access Granted, Please validate.\n If you face any issues, reach out to SRE team.")
+                status_transition(approval_request.jira_id)
                 send_mail_to_requester(request_id,emp_mail_id,emp_display_name,database, 'Vault Database')
             
         else:
@@ -183,6 +191,8 @@ def provide_access(request_id,access_type):
             print(build_status)
             if build_status == "SUCCESS":
                 approval_request.access_granted = "Yes"
+                add_comment(approval_request.jira_id, "Access Granted, Please check after 30 mins.\n If you face any issues, reach out to SRE team.")
+                status_transition(approval_request.jira_id)
                 send_mail_to_requester(request_id,emp_mail_id,emp_display_name,job_name,'Jenkins Job')
             
             else:
@@ -193,7 +203,7 @@ def provide_access(request_id,access_type):
 
 
 def send_mail_to_requester(request_id,recipient,emp_display_name,access_details,requested_for):
-    from_email = "sre@freecharge.com"
+    from_email = "sre@example.com"
     recipient_list = [recipient]
     subject = 'Access Granted Notification'
 
@@ -231,21 +241,33 @@ def send_mail_for_approval(request_id, recipient):
 
 
     # render the email template with the request object
-    if ac_type=='Server':
+    if ac_type == 'Server':
         subject = "Server Access Request"
+        issue_type = "Server Access Request"
     elif ac_type == "Vault Databag":
         subject = "Vault Databag Access Request"
+        issue_type = "Tools Access Request"
     elif ac_type == "Vault Database":
         subject = "Vault Database Access Request"
+        issue_type = "Tools Access Request"
     elif ac_type == "Jenkins Job":
         subject = "Jenkins Job Access Request"
+        issue_type = "Jenkins Access Request"
+    
 
-    context = {'request_header': ac_type,'employee_name': emp_display_name, 'request_details' : access_details, 'approve_url': allow_link, 'deny_url': deny_link}
+    description = f"Requested By: {emp_display_name}\nRequested For: {access_details}\nApprover: {recipient}\nOneclick Request ID: {request_id}\n\nPlease check the comments for further Update."
+
+    issue_id = create_issue(subject,description,issue_type,emp_display_name)
+    # print(issue_id)
+    approval_request.jira_id = str(issue_id)
+    approval_request.save()
+
+    context = {'request_header': ac_type,'employee_name': emp_display_name, 'request_details' : access_details, 'approve_url': allow_link, 'deny_url': deny_link, 'jira_id': str(issue_id)}
     
     message = render_to_string('user_access/approval_request_email.html', context)
     #text_content = strip_tags(message)
 
-    from_email = "sre@freecharge.com"
+    from_email = "sre@example.com"
     recipient_list = [recipient]
     # subject = "Access Granted Notification"
 
@@ -258,11 +280,14 @@ def send_mail_for_approval(request_id, recipient):
         fail_silently=False,
     )
 
+    comment = f"Request approval decision has been sent to your manager {recipient}"
+    add_comment(issue_id,comment)
 
+    
 @shared_task
 def send_request_details_to_requester(context,username):
-    from_email = "sre@freecharge.com"
-    recipient = username+"@freecharge.com"
+    from_email = "sre@example.com"
+    recipient = username+"@example.com"
     # print(recipient)
     recipient_list = [recipient]
     message = render_to_string('user_access/approval_decision_sent.html', context)

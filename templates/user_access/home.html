@@ -1,3 +1,4 @@
+<!-- top_requests.html -->
 {% extends 'user_access/base.html' %}
 
 {% block content %}
@@ -5,6 +6,35 @@
 
   <div class="text">Welcome to OneClick- The Access Management Tool</div>
   <p class="p">Here you can manage your access to various applications and systems.</p>
+  <br>
+  <div class="text">Recent Requests</div>
+  <table id="top_req">
+    <thead>
+      <tr>
+        <th>Request ID</th>
+        <th>Access Details</th>
+        <th>Access Type</th>
+        <th>Request Date</th>
+        <th>Approver Mail</th>
+        <th>Jira ID</th>
+        <th>Manager Approval</th>
+        <th>Access Granted</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for request in top_requests %}
+        <tr>
+          <td>{{ request.request_id }}</td>
+          <td>{{ request.access_details }}</td>
+          <td>{{ request.access_type }}</td>
+          <td>{{ request.request_date }}</td>
+          <td>{{ request.approver_mail }}</td>
+          <td>{{ request.jira_id }}</td>
+          <td>{{ request.manager_approval }}</td>
+          <td>{{ request.access_granted }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </section>
-
 {% endblock %}
