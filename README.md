@@ -24,6 +24,8 @@
 
 🔐 Access to EC2 servers, Vault databags, Vault databases, and Jenkins jobs.
 
+🔗 Jira integration for seamless collaboration and issue tracking.
+
 📬 Approval workflow with email notifications to managers and users.
 
 ## Technologies Used
@@ -43,6 +45,8 @@
 🔧 Ansible - Configuration management and deployment automation tool.
 
 🔧 Redis - In-memory data structure store used as a Celery backend for efficient task processing.
+
+🔗 Jira - Issue tracking and project management tool for seamless collaboration.
 
 ## Installation
 
