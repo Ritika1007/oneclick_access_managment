@@ -77,12 +77,20 @@
 > 
 > Login using Ldap
 ![image](https://github.com/Ritika1007/oneclick_access_managment/assets/72782573/514cb3ed-3ee3-406e-8367-ffebe7428455)
+>
+> ![image](https://github.com/Ritika1007/oneclick_access_managment/assets/72782573/6fe8523e-e253-4c1b-9bb2-3bf681b8d292)
+
 > Home page
 > 
 ![image](https://github.com/Ritika1007/oneclick_access_managment/assets/72782573/0cabeae2-3724-4df2-9b58-dee47da77f38)
 > Mail to manager for access request
 > 
-![image](https://github.com/Ritika1007/oneclick_access_managment/assets/72782573/58e4d61e-91a0-4262-b896-8d5713ddfa43)
+![image](https://github.com/Ritika1007/oneclick_access_managment/assets/72782573/2e29b4b1-9cda-469e-9128-e2d2510699a1)
 >Mail to Requester including details
 >
-![image](https://github.com/Ritika1007/oneclick_access_managment/assets/72782573/b47edd6c-aebe-4433-981e-52fa69d63cf7)
+![image](https://github.com/Ritika1007/oneclick_access_managment/assets/72782573/463bdd39-6798-42fd-822c-c39eec552138)
+>
+>Logout Screen
+>![image](https://github.com/Ritika1007/oneclick_access_managment/assets/72782573/32fdf235-f5d0-4620-983a-f12d2e105141)
+
+
