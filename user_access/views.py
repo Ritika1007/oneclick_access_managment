@@ -19,7 +19,10 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='/login')
 def home(requests):
     username = requests.user.username
-    return render(requests, 'user_access/home.html',{'username': username})
+    top_requests = AccessDefinition.objects.filter(emp_user_id=username).order_by('-request_date')[:5]
+    logged_in_user = get_object_or_404(UserDefinition, emp_user_id=username)
+    manager = logged_in_user.emp_reporting_manager
+    return render(requests, 'user_access/home.html',{'username': username, 'manager': manager, 'top_requests': top_requests})
 
 
 ###################
@@ -50,6 +53,7 @@ def delay_tasks(requests,approval_request):
     send_mail_for_approval.delay(approval_request.request_id,recipient)
 
     context = {'user':username,'rep_mgr': recipient,'request_details':approval_request.access_details,'request_id':approval_request.request_id}
+    # print(approval_request.jira_id)
     send_request_details_to_requester.delay(context,username)
 
     #mail to notify requester -> request sent for approval
