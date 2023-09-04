@@ -7,6 +7,8 @@
   <div class="text">Welcome to OneClick- The Access Management Tool</div>
   <p class="p">Here you can manage your access to various applications and systems.</p>
   <br>
+  <p class="p">Your access approval request will go to <strong>{{ manager }}<strong>.</p>
+  <br>
   <div class="text">Recent Requests</div>
   <table id="top_req">
     <thead>
@@ -25,7 +27,7 @@
       {% for request in top_requests %}
         <tr>
           <td>{{ request.request_id }}</td>
-          <td>{{ request.access_details }}</td>
+          <td class="restrict-text">{{ request.access_details }}</td>
           <td>{{ request.access_type }}</td>
           <td>{{ request.request_date }}</td>
           <td>{{ request.approver_mail }}</td>

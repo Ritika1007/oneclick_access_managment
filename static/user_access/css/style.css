@@ -176,11 +176,12 @@ border-radius: 12px;
 
 .sidebar li.profile{
   position: fixed;
-  height: 60px;
+  height: 80px;
   width: 250px;
   left: 0;
   bottom: -8px;
-  padding: 10px 14px;
+  /* padding: 14px; */
+  padding-left: 10px;
   background: #1d1b31;
   transition: all 0.5s ease;
   overflow: hidden;
@@ -214,15 +215,16 @@ border-radius: 12px;
   color: #fff;
   white-space: nowrap;
   align-content: normal;
-  text-align: center;
+  text-align: left;
   vertical-align: middle;
   line-height: 40px; 
-  padding-left: 30%;
+  padding-left: 20%;
+  padding-top: -20%;
   }
   
   .sidebar .profile #log_out{
   position: absolute;
-  top: 50%;
+  top: 75%;
   right: 0;
   transform: translateY(-50%);
   /* background: #1d1b31; */
@@ -258,6 +260,7 @@ min-height: 100vh;
 top: 0;
 left: 250px;
 width: calc(100% - 250px);
+/* width: calc(100% - max(250px, 100vw)); */
 transition: all 0.5s ease;
 z-index: 2;
 }
@@ -371,9 +374,9 @@ letter-spacing: 4px
 #top_req {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  /* width: 100%; */
+  width: calc(100% - 300px);
   margin-left: 18px;
-  margin-right: 18px;
+  margin-right: 25px;
   
 }
 
@@ -393,6 +396,32 @@ letter-spacing: 4px
   background-color: #11101d;
   color: white;
 }
+
+/* Style to restrict text overflow */
+.restrict-text {
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Display ellipsis (...) when text overflows */
+  max-width: 150px; /* Adjust the width based on your preference */
+}
+
+  /* Style for the tooltip */
+  .truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .truncate-text:hover {
+    overflow: visible;
+    white-space: normal;
+    background-color: #f9f9f9;
+    z-index: 1;
+    position: relative;
+    display: inline-block;
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
 
 /* .home-section .login-box a:hover {
 background: #03e9f4;
@@ -522,6 +551,4 @@ display: none;
     background-color: #4CAF50; /* Green */
     color: white;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-  }
-
-
+}
