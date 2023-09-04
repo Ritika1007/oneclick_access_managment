@@ -13,8 +13,8 @@ def add_user_info_db(username):
         abc=ipa_obj.user_show(username)
         DisName = abc['result']['result']['gecos'][0]
         AD_grp = ",".join(abc['result']['result']['memberof_group'])
-
-        emp_reporting_manager = "ritika.1@example.com"
-        user_add = UserDefinition(emp_user_id = username, emp_display_name = DisName, initial_ad_grps = AD_grp, emp_reporting_manager = emp_reporting_manager)
+        email_id = username+"@example.com"
+        emp_reporting_manager = "abc@example.com"
+        user_add = UserDefinition(emp_user_id = username, emp_display_name = DisName, email_mail_id = email_id, initial_ad_grps = AD_grp, emp_reporting_manager = emp_reporting_manager)
         user_add.save()
 
