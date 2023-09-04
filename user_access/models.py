@@ -10,18 +10,18 @@ class UserDefinition(models.Model):
     emp_mail_id = models.CharField(max_length=50, null=False)
     emp_display_name = models.CharField(max_length=50,null=True)
     emp_reporting_manager = models.CharField(max_length=50, null=False)
-    initial_ad_grps = models.TextField(null=True)
-    servers = models.TextField(null=True)
-    jenkins_job = models.TextField(null=True)
-    databags = models.TextField(null=True)
-    database = models.TextField(null=True)
-    emp_ssh_key = models.TextField(null=True)
+    initial_ad_grps = models.TextField(null=True,blank=True)
+    servers = models.TextField(null=True,blank=True)
+    jenkins_job = models.TextField(null=True,blank=True)
+    databags = models.TextField(null=True,blank=True)
+    database = models.TextField(null=True,blank=True)
+    emp_ssh_key = models.TextField(null=True,blank=True)
     objects = models.Manager()
 
 class ServerDefinition(models.Model):
     ip_address = models.CharField(max_length=30, primary_key=True, null=False)
-    server_name = models.CharField(max_length=50, null=False)
-    server_ad_grp = models.CharField(max_length=50, null=False)
+    server_name = models.CharField(max_length=100, null=False)
+    server_ad_grp = models.CharField(max_length=50, null=True)
     server_key = models.CharField(max_length=50, null=False)
     aws_account = models.CharField(max_length=50, null=False, default="Cigar")
     is_pci = models.CharField(max_length=5, null=False)
@@ -42,5 +42,3 @@ class AccessDefinition(models.Model):
     access_granted = models.CharField(max_length=50, null=False, default="Pending")
     jira_id = models.CharField(max_length=50, null=True)
     objects = models.Manager()
-
-
