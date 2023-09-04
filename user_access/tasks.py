@@ -6,6 +6,7 @@ from user_access.modules.IPA_module import ipa
 from user_access.modules.callJenkinsJob import *
 from user_access.modules.vault import *
 from user_access.modules.jira_tickets import *
+from user_access.modules.server_info_fetch import *
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -21,7 +22,7 @@ def provide_access(request_id,access_type):
     obj = approval_request.emp_user_id
     emp_display_name = getattr(obj, "emp_display_name")
     emp_sshkey = getattr(obj, "emp_ssh_key")
-    emp_mail_id = str(getattr(obj, "emp_user_id"))+"@example.com"
+    emp_mail_id = str(getattr(obj, "emp_user_id"))+"@freecharge.com"
 
     add_comment(approval_request.jira_id, f"Request approved by {approval_request.approver_mail}")
 
@@ -37,7 +38,17 @@ def provide_access(request_id,access_type):
         count=0
         ad_grp = []
         for ip in obj_ip.split(','):
-            server = ServerDefinition.objects.get(ip_address = ip)
+            print(ip)
+            try:
+                server = ServerDefinition.objects.get(ip_address = ip)
+            except ServerDefinition.DoesNotExist:
+                details = fetch_aws_info(ip)
+
+                print(details)
+                server = ServerDefinition(**details)  # Creating a ServerDefinition object with unpacked details
+                server.save()
+                print("added server")
+
             if server.is_managed_ad == "Yes":
                 print(ip, server.server_ad_grp)
                 if server.server_ad_grp not in ad_grp:
@@ -203,7 +214,7 @@ def provide_access(request_id,access_type):
 
 
 def send_mail_to_requester(request_id,recipient,emp_display_name,access_details,requested_for):
-    from_email = "sre@example.com"
+    from_email = "sre@freecharge.com"
     recipient_list = [recipient]
     subject = 'Access Granted Notification'
 
@@ -267,7 +278,7 @@ def send_mail_for_approval(request_id, recipient):
     message = render_to_string('user_access/approval_request_email.html', context)
     #text_content = strip_tags(message)
 
-    from_email = "sre@example.com"
+    from_email = "sre@freecharge.com"
     recipient_list = [recipient]
     # subject = "Access Granted Notification"
 
@@ -286,8 +297,8 @@ def send_mail_for_approval(request_id, recipient):
     
 @shared_task
 def send_request_details_to_requester(context,username):
-    from_email = "sre@example.com"
-    recipient = username+"@example.com"
+    from_email = "sre@freecharge.com"
+    recipient = username+"@freecharge.com"
     # print(recipient)
     recipient_list = [recipient]
     message = render_to_string('user_access/approval_decision_sent.html', context)
